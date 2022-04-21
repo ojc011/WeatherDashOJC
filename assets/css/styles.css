@@ -14,7 +14,7 @@ label {
 }
 
 .colOne {
-	background-color: darkkhaki;
+	background-color: white;
 }
 
 .colTwo {
@@ -40,4 +40,13 @@ label {
 }
 .purple{
   background-color: purple;
+}
+
+.icons {
+	height: 70px;
+	width: 70px;
+}
+
+.cardTodayDate {
+	font-size: 20px;
 }
