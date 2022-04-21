@@ -19,6 +19,7 @@ $(".search").on("click", function (event) {
   getWeatherToday();
 });
 
+
 var contHistEl = $(".cityHist");
 function getHistory() {
   contHistEl.empty();
@@ -37,6 +38,7 @@ function getHistory() {
   if (!city) {
     return;
   }
+
   $(".histBtn").on("click", function (event) {
     event.preventDefault();
     city = $(this).text();
@@ -46,7 +48,6 @@ function getHistory() {
 }
 
 var cardTodayBody = $(".cardBodyToday");
-
 function getWeatherToday() {
   var getUrlCurrent = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${key}`;
 
@@ -60,7 +61,7 @@ function getWeatherToday() {
     $(".cardTodayDate").text(date);
     $(".icons").attr(
       "src",
-      `http://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`
+      `https://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`
     );
 
     var pEl = $("<p>").text(`Temperature: ${response.main.temp} °F`);
@@ -126,7 +127,6 @@ function getFiveDayForecast() {
         myWeather.push(testObj);
       }
     });
-
     for (let i = 0; i < myWeather.length; i++) {
       var divElCard = $("<div>");
       divElCard.attr("class", "card text-white bg-primary mb-3 cardOne");
@@ -147,9 +147,10 @@ function getFiveDayForecast() {
       divElIcon.attr("class", "icons");
       divElIcon.attr(
         "src",
-        `http://openweathermap.org/img/wn/${myWeather[i].icon}@2x.png`
+        `https://openweathermap.org/img/wn/${myWeather[i].icon}@2x.png`
       );
       divElBody.append(divElIcon);
+
       var pElTemp = $("<p>").text(`Temperature: ${myWeather[i].temp} °F`);
       divElBody.append(pElTemp);
       var pElFeel = $("<p>").text(`Feels Like: ${myWeather[i].feels_like} °F`);
@@ -160,6 +161,7 @@ function getFiveDayForecast() {
   });
 }
 
+//Preloaded data for denver
 function initLoad() {
   var cityHistStore = JSON.parse(localStorage.getItem("city"));
 
