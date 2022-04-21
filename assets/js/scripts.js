@@ -1,53 +1,79 @@
-var city = "Denver";
 var key = "64f2ee2a8261daa4d9f780f5b365f275";
+var city = "Denver";
+
 var dateTime = moment().format("YYYY-MM-DD HH:MM:SS");
 console.log(dateTime);
 
 var cityHist = [];
-//places text value in input form into an array
-$(".search").on("click", function () {
-  var city = $(this).parent(".btnPar").siblings(".textVal").val();
+$(".search").on("click", function (event) {
+  event.preventDefault();
+
+  var city = $(this).parent(".btnPar").siblings(".textVal").val().trim();
+
+  if (city === "") {
+    return;
+  }
+
   cityHist.push(city);
-  emptyHist();
+  console.log(cityHist);
+
+  localStorage.setItem("city", JSON.stringify(cityHist));
   getHistory();
 });
 
-//extra buttons will be created in search history
 var contHistEl = $(".cityHist");
 function getHistory() {
+  contHistEl.empty();
+
   for (let i = 0; i < cityHist.length; i++) {
     var rowEl = $("<row>");
-    var btnEl = $("<button>");
+    var btnEl = $("<button>").text(`${cityHist[i]}`);
 
     rowEl.addClass("row histBtnRow");
     btnEl.addClass("btn btn-outline-secondary");
     btnEl.attr("type", "button");
 
-    btnEl.text(`${cityHist[i]}`);
-
-    contHistEl.append(rowEl);
+    contHistEl.prepend(rowEl);
     rowEl.append(btnEl);
   }
-}
-//deletes duplicates
-function emptyHist() {
-  contHistEl.empty();
+
+  // if (!city){
+  // 	return;
+  // } else {
+  // 	getWeather(cityHist[i])
+  // };
 }
 
-// var getUrlCurrent = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}`;
+// function getWeather () {
+
+// };
+
+var getUrlCurrent = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}`;
+
 // var getUrlCurrentUV = `https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}`;
 // var getUrlFiveDay = `https://api.openweathermap.org/data/2.5/forecast?q=${city},us&mode=xml&appid=${key}`;
 
 // var getUrlIcons = `https://http://openweathermap.org/img`;
 
-// $.ajax({
-//   url: getUrlCurrent,
-// 	// dataType: "json",
-//   method: 'GET',
-// }).then(function (response) {
-//   console.log('AJAX Response');
-//   console.log(response);
-// });
+$.ajax({
+  url: getUrlCurrent,
+  method: "GET",
+}).then(function (response) {
+  console.log("AJAX Response");
+  console.log(response);
+  console.log(response.base);
+});
+
+function initLoad() {
+  var cityHistStore = JSON.parse(localStorage.getItem("city"));
+
+  if (cityHistStore !== null) {
+    cityHist = cityHistStore;
+  }
+  getHistory();
+}
+
+initLoad();
 
 // fetch(getUrlCurrent)
 //   .then(function (response) {
